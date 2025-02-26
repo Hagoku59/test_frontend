@@ -41,7 +41,6 @@ const CharacterList = () => {
         const episode = record.episode;
         setCharacterInfo({name: record.name, image: record.image, status: record.status, location: location.name,origin: origin.name, episodes: episode.length
         });
-        console.log("Info", characterInfo);
         setOpenDrawer(true);
     };
 
