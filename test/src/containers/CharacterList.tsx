@@ -73,54 +73,54 @@ const CharacterList = () => {
 
     const getColumnSearchProps = (dataIndex: DataIndex): TableColumnType<ColumnType> => ({
         filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
-          <div style={{ padding: 8}} onKeyDown={(e) => e.stopPropagation()}>
-            <Input
-              ref={searchInput}
-              placeholder={`Search ${dataIndex}`}
-              value={selectedKeys[0]}
-              onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
-              onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
-              style={{ marginBottom: 8, display: 'block' }}
-            />
-            <Flex wrap gap="small">
-              <Button
-                type="primary"
-                onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
-                icon={<SearchOutlined />}
-                size="small"
-                style={{ width: 90 }}
-              >
-                Search
-              </Button>
-              <Button
-                onClick={() => clearFilters && handleReset(clearFilters)}
-                size="small"
-                style={{ width: 90 }}
-              >
-                Reset
-              </Button>
-              <Button
-                type="link"
-                size="small"
-                onClick={() => {
-                  confirm({ closeDropdown: false });
-                  setSearchText((selectedKeys as string[])[0]);
-                  setSearchedColumn(dataIndex);
-                }}
-              >
-                Filter
-              </Button>
-              <Button
-                type="link"
-                size="small"
-                onClick={() => {
-                  close();
-                }}
-              >
-                close
-              </Button>
-            </Flex>
-          </div>
+            <div style={{ padding: 8}} onKeyDown={(e) => e.stopPropagation()}>
+                <Input
+                    ref={searchInput}
+                    placeholder="Искать имя"
+                    value={selectedKeys[0]}
+                    onChange={(e) => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                    onPressEnter={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+                    style={{ marginBottom: 8, display: 'block' }}
+                />
+                <Flex wrap gap="small">
+                <Button
+                    type="primary"
+                    onClick={() => handleSearch(selectedKeys as string[], confirm, dataIndex)}
+                    icon={<SearchOutlined />}
+                    size="small"
+                    style={{ width: 90 }}
+                >
+                    Поиск
+                </Button>
+                <Button
+                    onClick={() => clearFilters && handleReset(clearFilters)}
+                    size="small"
+                    style={{ width: 90 }}
+                >
+                    Сброс
+                </Button>
+                <Button
+                    type="link"
+                    size="small"
+                    onClick={() => {
+                    confirm({ closeDropdown: false });
+                    setSearchText((selectedKeys as string[])[0]);
+                    setSearchedColumn(dataIndex);
+                    }}
+                >
+                    Фильтр
+                </Button>
+                <Button
+                    type="link"
+                    size="small"
+                    onClick={() => {
+                    close();
+                    }}
+                >
+                    Закрыть
+                </Button>
+                </Flex>
+            </div>
         ),
         filterIcon: (filtered: boolean) => (
           <SearchOutlined style={{ color: filtered ? '#1677ff' : undefined }} />
@@ -145,10 +145,10 @@ const CharacterList = () => {
               autoEscape
               textToHighlight={text ? text.toString() : ''}
             />
-          ) : (
+        ) : (
             text
-          ),
-      });
+        ),
+    });
 
     const columns: TableProps<ColumnType>["columns"] = [
         {
@@ -180,8 +180,9 @@ const CharacterList = () => {
                     text: "Неизвестно",
                     value: "unknown",
                 },
-            ]
-          }
+            ],
+            onFilter: (value, record) => record.status.indexOf(value as string) === 0,
+        }
     ];
     
     return <>
@@ -190,12 +191,6 @@ const CharacterList = () => {
                 <p style={{color: "white", fontWeight: "bold", fontSize: "3vw"}}>Rick and Morty characters</p>
             </Header>
             <Content style={{padding: 25, backgroundColor: "grey", minHeight: "100vh"}}>
-                <div style={{
-                    background: "white",
-                    minHeight: 280,
-                    padding: 24,
-                    borderRadius: 25,
-                }}>
                     <Table dataSource={charactersData} columns={columns} 
                         onRow={(record, rowIndex) => {
                             return {
@@ -226,7 +221,6 @@ const CharacterList = () => {
                             <h4>Загрузка...</h4>
                         </Flex>
                     </Modal>
-                </div>
             </Content>
         </Layout>
     </>
